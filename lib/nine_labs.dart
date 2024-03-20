@@ -13,7 +13,7 @@ class NineLabs extends FlameGame with HasKeyboardHandlerComponents, DragCallback
 
   late final CameraComponent cam;
   late JoystickComponent joystick;
-  bool showControls = true;
+  bool showControls = false;
   Player player = Player(character: 'MaskDude');
 
   @override
