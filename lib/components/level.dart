@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:ninelabs/components/background_tile.dart';
 import 'package:ninelabs/components/collision_block.dart';
+import 'package:ninelabs/components/fruit.dart';
 
 import 'package:ninelabs/components/player.dart';
 import 'package:ninelabs/nine_labs.dart';
@@ -66,6 +67,13 @@ class Level extends World with HasGameRef<NineLabs> {
           case 'Player':
             player.position = Vector2(spawnPoint.x, spawnPoint.y);
             add(player);
+            break;
+          case 'Fruit':
+            final fruit = Fruit(
+              fruit: spawnPoint.name,
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+            );
+            add(fruit);
             break;
         }
       }

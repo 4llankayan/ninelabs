@@ -4,13 +4,15 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:ninelabs/components/collision_block.dart';
-import 'package:ninelabs/components/player_hitbox.dart';
+import 'package:ninelabs/components/custom_hitbox.dart';
+import 'package:ninelabs/components/fruit.dart';
 import 'package:ninelabs/components/utils.dart';
 import 'package:ninelabs/nine_labs.dart';
 
 enum PlayerState { idle, running, jumping, falling }
 
-class Player extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, KeyboardHandler {
+class Player extends SpriteAnimationGroupComponent
+    with HasGameRef<NineLabs>, KeyboardHandler, CollisionCallbacks {
   String character;
 
   Player({
@@ -34,7 +36,7 @@ class Player extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, Ke
   bool isOnGround = false;
   bool hasJumped = false;
 
-  PlayerHitbox hitbox = PlayerHitbox(
+  CustomHitbox hitbox = CustomHitbox(
     offsetX: 10,
     offsetY: 4,
     width: 14,
@@ -81,6 +83,12 @@ class Player extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, Ke
         keysPressed.contains(LogicalKeyboardKey.arrowUp);
 
     return super.onKeyEvent(event, keysPressed);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Fruit) other.collidedWithPlayer();
+    super.onCollision(intersectionPoints, other);
   }
 
   void _loadAllAnimations() {

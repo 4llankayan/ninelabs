@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:ninelabs/components/player.dart';
 import 'package:ninelabs/components/level.dart';
 
-class NineLabs extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks {
+class NineLabs extends FlameGame
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
 
