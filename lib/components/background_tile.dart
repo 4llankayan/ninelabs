@@ -8,10 +8,8 @@ class BackgroundTile extends SpriteComponent with HasGameRef<NineLabs> {
 
   BackgroundTile({
     this.color = 'Gray',
-    position,
-  }) : super(
-          position: position,
-        );
+    super.position,
+  });
 
   final double scrollSpeed = 0.4;
 
