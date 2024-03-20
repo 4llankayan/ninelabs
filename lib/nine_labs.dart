@@ -4,8 +4,8 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:ninelabs/actors/player.dart';
-import 'package:ninelabs/levels/level.dart';
+import 'package:ninelabs/components/player.dart';
+import 'package:ninelabs/components/level.dart';
 
 class NineLabs extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks {
   @override
@@ -60,15 +60,15 @@ class NineLabs extends FlameGame with HasKeyboardHandlerComponents, DragCallback
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        player.playerDirection = PlayerDirection.left;
+        player.horizontalMovement = -1;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        player.playerDirection = PlayerDirection.right;
+        player.horizontalMovement = 1;
         break;
       default:
-        player.playerDirection = PlayerDirection.none;
+        player.horizontalMovement = 0;
         break;
     }
   }
