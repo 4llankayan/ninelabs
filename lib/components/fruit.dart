@@ -14,17 +14,18 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<NineLabs>, Collisio
     super.size,
   });
 
-  bool _collected = false;
   final double stepTime = 0.05;
-  final CustomHitbox hitbox = CustomHitbox(
+  final hitbox = CustomHitbox(
     offsetX: 10,
     offsetY: 10,
     width: 12,
     height: 12,
   );
+  bool collected = false;
 
   @override
   FutureOr<void> onLoad() {
+    // debugMode = true;
     priority = -1;
 
     add(
@@ -34,7 +35,6 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<NineLabs>, Collisio
         collisionType: CollisionType.passive,
       ),
     );
-
     animation = SpriteAnimation.fromFrameData(
       game.images.fromCache('Items/Fruits/$fruit.png'),
       SpriteAnimationData.sequenced(
@@ -43,12 +43,12 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<NineLabs>, Collisio
         textureSize: Vector2.all(32),
       ),
     );
-
     return super.onLoad();
   }
 
-  void collidedWithPlayer() {
-    if (!_collected) {
+  void collidedWithPlayer() async {
+    if (!collected) {
+      collected = true;
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Items/Fruits/Collected.png'),
         SpriteAnimationData.sequenced(
@@ -59,12 +59,8 @@ class Fruit extends SpriteAnimationComponent with HasGameRef<NineLabs>, Collisio
         ),
       );
 
-      _collected = true;
-
-      Future.delayed(
-        const Duration(milliseconds: 400),
-        () => removeFromParent(),
-      );
+      await animationTicker?.completed;
+      removeFromParent();
     }
   }
 }
