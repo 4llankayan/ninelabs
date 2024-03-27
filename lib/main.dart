@@ -7,7 +7,7 @@ import 'package:ninelabs/nine_labs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.device.fullScreen();
-  await Flame.device.setLandscape();
+  if (!kIsWeb) await Flame.device.setLandscape();
 
   NineLabs game = NineLabs();
 

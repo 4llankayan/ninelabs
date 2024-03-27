@@ -4,38 +4,43 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:ninelabs/components/jump_button.dart';
 import 'package:ninelabs/components/player.dart';
 import 'package:ninelabs/components/level.dart';
 
 class NineLabs extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, TapCallbacks {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
-
-  late final CameraComponent cam;
+  late CameraComponent cam;
+  Player player = Player(character: 'MaskDude');
   late JoystickComponent joystick;
   bool showControls = false;
-  Player player = Player(character: 'MaskDude');
+  bool playSounds = true;
+  double soundVolume = 1.0;
+  List<String> levelNames = ['level-01', 'level-01'];
+  int currentLevelIndex = 0;
 
   @override
   FutureOr<void> onLoad() async {
-    await images.loadAllImages(); // images on cache
+    // Load all images into cache
+    await images.loadAllImages();
 
-    final world = Level(levelName: 'level-01', player: player);
+    _loadLevel();
 
-    cam = CameraComponent.withFixedResolution(world: world, width: 640, height: 360);
-    cam.viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cam, world]);
-
-    if (showControls) addJoystick();
+    if (showControls) {
+      addJoystick();
+      add(JumpButton());
+    }
 
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    if (showControls) updateJoystick();
+    if (showControls) {
+      updateJoystick();
+    }
     super.update(dt);
   }
 
@@ -72,5 +77,36 @@ class NineLabs extends FlameGame
         player.horizontalMovement = 0;
         break;
     }
+  }
+
+  void loadNextLevel() {
+    removeWhere((component) => component is Level);
+
+    if (currentLevelIndex < levelNames.length - 1) {
+      currentLevelIndex++;
+      _loadLevel();
+    } else {
+      // no more levels
+      currentLevelIndex = 0;
+      _loadLevel();
+    }
+  }
+
+  void _loadLevel() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Level world = Level(
+        player: player,
+        levelName: levelNames[currentLevelIndex],
+      );
+
+      cam = CameraComponent.withFixedResolution(
+        world: world,
+        width: 640,
+        height: 360,
+      );
+      cam.viewfinder.anchor = Anchor.topLeft;
+
+      addAll([cam, world]);
+    });
   }
 }
