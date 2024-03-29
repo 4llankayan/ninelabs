@@ -78,7 +78,7 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, C
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
     return SpriteAnimation.fromFrameData(
-      game.images.fromCache('Enemies/Chicken/$state(32x34).png'),
+      game.images.fromCache('Enemies/Chicken/$state (32x34).png'),
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
@@ -103,11 +103,19 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, C
       // player in range
       targetDirection = (player.x + playerOffset < position.x + chickenOffset) ? -1 : 1;
       velocity.x = targetDirection * runSpeed;
+      moveDirection = lerpDouble(moveDirection, targetDirection, 0.1) ?? 1;
+
+      position.x += velocity.x * dt;
+    } else {
+      if (position.x >= rangePos) {
+        moveDirection = -1;
+      } else if (position.x <= rangeNeg) {
+        moveDirection = 1;
+      }
+
+      position.x += moveDirection * runSpeed * dt;
+      velocity.x = targetDirection * runSpeed;
     }
-
-    moveDirection = lerpDouble(moveDirection, targetDirection, 0.1) ?? 1;
-
-    position.x += velocity.x * dt;
   }
 
   bool playerInRange() {
@@ -138,7 +146,7 @@ class Chicken extends SpriteAnimationGroupComponent with HasGameRef<NineLabs>, C
       await animationTicker?.completed;
       removeFromParent();
     } else {
-      player.collidedwithEnemy();
+      if (!gotStomped) player.collidedWithEnemy();
     }
   }
 }
