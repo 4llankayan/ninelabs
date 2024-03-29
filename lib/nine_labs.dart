@@ -16,9 +16,7 @@ class NineLabs extends FlameGame
   Player player = Player(character: 'MaskDude');
   late JoystickComponent joystick;
   bool showControls = false;
-  bool playSounds = true;
-  double soundVolume = 1.0;
-  List<String> levelNames = ['level-01', 'level-01'];
+  List<String> levelNames = ['level-01', 'level-02', 'level-03'];
   int currentLevelIndex = 0;
 
   @override
@@ -90,6 +88,12 @@ class NineLabs extends FlameGame
       currentLevelIndex = 0;
       _loadLevel();
     }
+  }
+
+  void loadCurrentLevel() {
+    removeWhere((component) => component is Level);
+
+    _loadLevel();
   }
 
   void _loadLevel() {

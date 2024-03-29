@@ -42,6 +42,7 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   bool isOnGround = false;
   bool hasJumped = false;
+  bool hasRestarted = false;
   bool gotHit = false;
   bool reachedCheckpoint = false;
   List<CollisionBlock> collisionBlocks = [];
@@ -103,6 +104,8 @@ class Player extends SpriteAnimationGroupComponent
     hasJumped = keysPressed.contains(LogicalKeyboardKey.space) ||
         keysPressed.contains(LogicalKeyboardKey.keyW) ||
         keysPressed.contains(LogicalKeyboardKey.arrowUp);
+
+    hasRestarted = keysPressed.contains(LogicalKeyboardKey.keyR);
 
     return super.onKeyEvent(event, keysPressed);
   }
@@ -186,6 +189,11 @@ class Player extends SpriteAnimationGroupComponent
 
   void _updatePlayerMovement(double dt) {
     if (hasJumped && isOnGround) _playerJump(dt);
+
+    if (hasRestarted) {
+      game.loadCurrentLevel();
+      hasRestarted = false;
+    }
 
     velocity.x = horizontalMovement * moveSpeed;
     position.x += velocity.x * dt;
@@ -288,11 +296,11 @@ class Player extends SpriteAnimationGroupComponent
     reachedCheckpoint = false;
     position = Vector2.all(-640);
 
-    const waitToChangeDuration = Duration(seconds: 3);
+    const waitToChangeDuration = Duration(seconds: 1);
     Future.delayed(waitToChangeDuration, () => game.loadNextLevel());
   }
 
-  void collidedwithEnemy() {
+  void collidedWithEnemy() {
     _respawn();
   }
 }
