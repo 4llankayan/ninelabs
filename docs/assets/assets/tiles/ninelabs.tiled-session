@@ -1,0 +1,71 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "Nine Labs.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "level-01.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 371.99999999999994,
+                "y": 145.33333333333331
+            }
+        },
+        "level-02.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 407.5,
+                "y": 183.5
+            }
+        },
+        "level-03.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 1.59421875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 351.8965010291091,
+                "y": 184.4163481329021
+            }
+        }
+    },
+    "last.imagePath": "/home/allan/dev/projects/flutter/ninelabs_game/ninelabs/assets/images/Terrain",
+    "map.height": 23,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 40,
+    "openFiles": [
+    ],
+    "project": "ninelabs.tiled-project",
+    "property.type": "float",
+    "recentFiles": [
+        "Nine Labs.tsx",
+        "level-01.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
